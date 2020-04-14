@@ -2,9 +2,22 @@
 s3shell aims to create a simulated file system that uses s3 as the source. The commands used are similar to *nix terminal commands as far as possible.
 
 ### Currently supported commands
-1. [cd](#cd)
-2. [ls](#ls)
-3. [pwd](#pwd) 
+* [cd](#cd)
+* [ls](#ls)
+* [pwd](#pwd) 
+
+### Future commands
+* su
+* stats
+* mkdir
+* cat
+* printenv
+* set
+* cp
+* mv
+* rm
+* echo 
+* history 
 
 ### How it works
 s3shell assumes buckets as directories under root `/`. The inner directories are keys of an object. When you execute a command, it makes boto3 calls to retrieve data and parse the result to show you in the view of the actual shell. You will be able to track your request counts by `stats` command at the future versions.   
