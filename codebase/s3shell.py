@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from initial import cmd_parser
 import state_helper
 import global_vars
