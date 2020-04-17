@@ -10,9 +10,10 @@ def dispatch(params):
             __list_objects()
     except ClientError as ce:
         if "Access Denied" in str(ce):
-            print("You dont have permission to list current path. Run 'pwd' to find out where you are.")
-        else:
-            print(ce)
+            print("You dont have permission to list the path.")
+            print("Run 'who' to get your current profile and run 'pwd' to find out where you are.")
+            print("Then make sure you have permission to list the path.")
+        print(f"Exception: {ce}")
 
 
 def __list_buckets():
