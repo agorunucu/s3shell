@@ -1,11 +1,18 @@
 import global_vars
+from botocore.exceptions import ClientError
 
 
 def dispatch(params):
-    if global_vars.current_bucket is None:
-        __list_buckets()
-    else:
-        __list_objects()
+    try:
+        if global_vars.current_bucket is None:
+            __list_buckets()
+        else:
+            __list_objects()
+    except ClientError as ce:
+        if "Access Denied" in str(ce):
+            print("You dont have permission to list current path.  Run 'pwd' to find out where you are.")
+        else:
+            print(ce)
 
 
 def __list_buckets():
