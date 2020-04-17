@@ -10,7 +10,7 @@ def dispatch(params):
             __list_objects()
     except ClientError as ce:
         if "Access Denied" in str(ce):
-            print("You dont have permission to list current path.  Run 'pwd' to find out where you are.")
+            print("You dont have permission to list current path. Run 'pwd' to find out where you are.")
         else:
             print(ce)
 

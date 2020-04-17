@@ -1,4 +1,4 @@
-from commands import ls, cd, exit, pwd, printenv, su
+from commands import ls, cd, exit, pwd, printenv, su, who
 
 dispatcher = {
     'ls': ls.dispatch,
@@ -6,5 +6,6 @@ dispatcher = {
     'exit': exit.dispatch,
     'pwd': pwd.dispatch,
     'printenv': printenv.dispatch,
-    'su': su.dispatch
+    'su': su.dispatch,
+    'who': who.dispatch
 }

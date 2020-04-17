@@ -7,6 +7,7 @@ s3shell aims to create a simulated file system that uses s3 as the source. The c
 * [pwd](#pwd) 
 * [printenv](#printenv)
 * [su](#su)
+* [who](#who)
 
 ### Future commands
 * stats
@@ -75,4 +76,11 @@ Changes current profile. The new profile must exists in ~/.aws/credentials file.
 ```commandline
 [old_profile] /> su new_profile
 [new_profile] /> 
+```
+
+### who
+Prints current profile name. Usage;
+```commandline
+[test_profile] /> who
+test_profile 
 ```
