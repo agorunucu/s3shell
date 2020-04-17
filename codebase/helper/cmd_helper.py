@@ -16,7 +16,7 @@ def parse():
 
 
 def init_s3cli(parser, args):
-    if ((args.access_key_id is None and args.secret_access_key is not None) or \
+    if ((args.access_key_id is None and args.secret_access_key is not None) or
         (args.access_key_id is not None and args.secret_access_key is None)) and \
             args.profile is None:
         print("You must set both access-key-id and secret-access-key!", file=sys.stderr)
