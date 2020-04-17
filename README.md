@@ -5,13 +5,13 @@ s3shell aims to create a simulated file system that uses s3 as the source. The c
 * [cd](#cd)
 * [ls](#ls)
 * [pwd](#pwd) 
+* [printenv](#printenv)
 
 ### Future commands
 * su
 * stats
 * mkdir
 * cat
-* printenv
 * set
 * cp
 * mv
@@ -20,14 +20,14 @@ s3shell aims to create a simulated file system that uses s3 as the source. The c
 * history 
 
 ### How it works
-s3shell assumes buckets as directories under root `/`. The inner directories are keys of an object. When you execute a command, it makes boto3 calls to retrieve data and parse the result to show you in the view of the actual shell. You will be able to track your request counts by `stats` command at the future versions.   
+The s3shell assumes buckets as directories under root `/`. The inner directories are keys of an object. When you execute a command, it makes boto3 calls to retrieve data and parse the result to show you in the view of the actual shell. You will be able to track your request counts by `stats` command at the future versions.   
 
 For example, you have to buckets `test-bucket-1` and `test-bucket-2` and a file under `test-bucket-2` as the key `logs/latest/log1.csv`, the file structure is as follows;
 ```commandline
 /test-bucket-1
 /test-bucket-2/logs/latest/log1.csv
 ```
-
+It also has environment variables by its own. You can print them out with [printenv](#printenv) command. It gets values from `codebase/environment/{profile}.yaml` file. You can add new ones by adding the file and restarting the shell. 
 ### How to run
 
 1. Install the required libraries if not exists. These libraries could be found in [requirements](requirements.txt) file.
@@ -41,23 +41,31 @@ You need to enter aws access key id and aws security access key to use the shell
 #### cd
 Changes directory. Works both absolute and relative paths. If you try to go non-exists or not-permitted dir, you get an error. Usage;
 ```commandline
-cd testdir
-cd /testrootdir/testdir
-cd test_dir/testdir2/../testdir3
-cd ..
-cd  # Goes root '/'
+> cd testdir
+> cd /testrootdir/testdir
+> cd test_dir/testdir2/../testdir3
+> cd ..
+> cd  # Goes root '/'
 ```
 
 ### ls
 Lists current directory. If the current path is root `/`, lists buckets. Usage;
 ```commandline
-ls
+> ls
 ```
 
 ### pwd
 Shows current dir in both shell type and s3 type. Usage;
 ```commandline
-pwd
-# /bucket1/dir1
-# s3://bucket1/dir1
+> pwd
+/bucket1/dir1
+s3://bucket1/dir1
+```
+
+### printenv
+Prints the current environment variables. Usage;
+```commandline
+> printenv
+envvar1=value1
+envvar2=value2
 ```

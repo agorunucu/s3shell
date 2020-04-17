@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-from initial import cmd_parser
-import state_helper
+from helper import cmd_parser, env_var_helper, state_helper
 import global_vars
 from dispatcher import dispatcher
 import sys
@@ -37,4 +36,5 @@ def main_loop():
 if __name__ == "__main__":
     parser, args = cmd_parser.parse()
     global_vars.s3cli = cmd_parser.init_s3cli(parser, args)
+    env_var_helper.init_environment_variables()
     main_loop()
