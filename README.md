@@ -6,9 +6,9 @@ s3shell aims to create a simulated file system that uses s3 as the source. The c
 * [ls](#ls)
 * [pwd](#pwd) 
 * [printenv](#printenv)
+* [su](#su)
 
 ### Future commands
-* su
 * stats
 * mkdir
 * cat
@@ -68,4 +68,11 @@ Prints the current environment variables. Usage;
 > printenv
 envvar1=value1
 envvar2=value2
+```
+
+### su
+Changes current profile. The new profile must exists in ~/.aws/credentials file. It also changes the environment variables with new profiles envs. Usage;
+```commandline
+[old_profile] /> su new_profile
+[new_profile] /> 
 ```
