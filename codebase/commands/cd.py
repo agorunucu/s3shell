@@ -1,5 +1,6 @@
 import global_vars
 import sys
+from helper.path_helper import get_absolute_path, check_if_path_exists, calculate_relativity
 
 
 def dispatch(params):
@@ -15,11 +16,11 @@ def dispatch(params):
     stripped_path = str(params[0]).strip()
 
     if not stripped_path.startswith("/"):
-        absolute_path = __get_absolute_path(stripped_path)
+        absolute_path = get_absolute_path(stripped_path)
     else:
         absolute_path = stripped_path
 
-    calculated_absolute_path = __calculate_relativity(absolute_path)
+    calculated_absolute_path = calculate_relativity(absolute_path)
     __go_absolute_path(calculated_absolute_path)
 
 
@@ -46,70 +47,19 @@ def __go_absolute_path(absolute_path):
     else:
         new_dir = ""
 
-    if __check_if_path_exists(new_bucket, new_dir):
+    is_exists, maybe_exception = check_if_path_exists(new_bucket, key=new_dir)
+    if is_exists:
         global_vars.current_bucket = new_bucket
         if new_dir == "":
             global_vars.current_dir = None
         else:
             global_vars.current_dir = new_dir
     else:
-        print("Whether there is no dir or you don't have permission to access it.", file=sys.stderr)
+        if maybe_exception is not None and "Access Denied" in str(maybe_exception):
+            print("You don't have permission to access it.", file=sys.stderr)
+        else:
+            print("There is no dir as entered.")
         if new_dir == "":
             print(f"S3Version: s3://{new_bucket}/", file=sys.stderr)
         else:
             print(f"S3Version: s3://{new_bucket}/{new_dir}/", file=sys.stderr)
-
-
-def __get_absolute_path(relative_path):
-    if global_vars.current_bucket is None:
-        absolute_path = '/' + relative_path
-    elif global_vars.current_dir is None:
-        absolute_path = '/' + global_vars.current_bucket + '/' + relative_path
-    else:
-        absolute_path = '/' + global_vars.current_bucket + '/' + global_vars.current_dir + '/' + relative_path
-    return absolute_path
-
-
-def __check_if_path_exists(bucket, key=""):
-    s3cli = global_vars.s3cli
-    try:
-        if key is "":
-            s3cli.head_bucket(Bucket=bucket)
-            return True
-        else:
-            if not key.endswith("/"):
-                key += "/"
-            response = s3cli.list_objects_v2(
-                Bucket=bucket,
-                MaxKeys=1,
-                Prefix=key
-            )
-            return int(response['KeyCount']) > 0
-    except Exception as e:
-        print(e)
-        return False
-
-
-def __calculate_relativity(relative_path):
-    splitted_path = relative_path.split('/')
-
-    while True:
-        is_there_any_change = False
-        for index, name in enumerate(splitted_path):
-            if name == "..":
-                # Simulate /..
-                if index == 1:
-                    del splitted_path[index]
-                else:
-                    del splitted_path[index]
-                    del splitted_path[index - 1]
-                is_there_any_change = True
-                break
-        if not is_there_any_change:
-            break
-
-    result = "/".join(splitted_path)
-    if not result.startswith('/'):
-        result = '/' + result
-
-    return result

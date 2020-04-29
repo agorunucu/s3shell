@@ -8,10 +8,10 @@ s3shell aims to create a simulated file system that uses s3 as the source. The c
 * [printenv](#printenv)
 * [su](#su)
 * [who](#who)
+* [mkdir](#mkdir)
 
 ### Future commands
 * stats
-* mkdir
 * cat
 * set
 * cp
@@ -83,4 +83,15 @@ Prints current profile name. Usage;
 ```commandline
 [test_profile] /> who
 test_profile 
+```
+
+### mkdir
+Creates virtual dirs. It creates buckets and objects on the background. If you create under hte root directory, it creates bucket. Otherwise, it creates objects in the specified bucket.  
+```commandline
+[test_profile] /> mkdir test-bucket-1
+# Creates a bucket with the name `test-bucket-1`, because its on root dir.
+[test_profile] /> mkdir test-bucket-1/test-dir-2
+# Creates an object with the key `test-dir-2/`
+[test_profile] /> mkdir /test-bucket-2/test4/test5/test6
+# Creates a bucket with the name `test-bucket-2` and an object with key `test4/test5/test6/`
 ```

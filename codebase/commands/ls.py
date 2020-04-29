@@ -53,7 +53,7 @@ def __list_objects():
     key_count = list_response['KeyCount']
 
     if bool(is_truncated):
-        print(f"total ?, showing {key_count}, range {current_min} - {current_min + key_count -1}")
+        print(f"total ?, showing {key_count}, range {current_min} - {current_min + key_count - 1}")
     else:
         print(f"total {key_count}")
 
@@ -77,7 +77,7 @@ def __list_objects():
             if current_dir is None:
                 object_name = common_prefix['Prefix']
             else:
-                object_name = str(common_prefix['Prefix']).replace(current_dir+'/', '')
+                object_name = str(common_prefix['Prefix']).replace(current_dir + '/', '')
 
             if object_name.endswith('/'):
                 object_name = object_name[:-1]
@@ -110,6 +110,8 @@ def __list_objects():
             # Remove current dir prefix from keys
             if current_dir is None:
                 object_name = current_object['Key']
+            elif str(current_object['Key']) == current_dir + '/':
+                object_name = './'
             else:
                 object_name = str(current_object['Key']).replace(current_dir + '/', '')
 
@@ -139,4 +141,3 @@ def __get_max_length_of_str(obj_array, key, second_key=None, default_min=0):
                 if len(str(obj[key][second_key])) > min_val:
                     min_val = len(str(obj[key][second_key]))
     return min_val
-

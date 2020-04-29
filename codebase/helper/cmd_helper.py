@@ -46,10 +46,12 @@ def init_s3cli(parser, args):
 
 def __generate_boto3_with_profile(profile_name):
     session = boto3.Session(profile_name=profile_name)
+    global_vars.region = session.region_name
     return session.client('s3')
 
 
 def __generate_boto3_with_keys(access_key_id, secret_access_key, region):
+    global_vars.region = region
     return boto3.client('s3',
                         aws_access_key_id=access_key_id,
                         aws_secret_access_key=secret_access_key,
